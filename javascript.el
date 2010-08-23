@@ -94,8 +94,8 @@ current line is indented when certain punctuations are inserted."
 
 (when javascript-auto-indent-flag
   (mapc (lambda (key) 
-	  (define-key javascript-mode-map key 'javascript-insert-and-indent))
-	'("{" "}" "(" ")" ":" ";" ",")))
+          (define-key javascript-mode-map key 'javascript-insert-and-indent))
+        '("{" "}" "(" ")" ":" ";" ",")))
 
 (defun javascript-insert-and-indent (key)
   "Run command bound to key and indent current line. Runs the command
@@ -215,11 +215,11 @@ comments have been removed."
   "Return non-nil if point is inside a function parameter list."
   (condition-case err
       (save-excursion
-	(up-list -1)
-	(and (looking-at "(")
-	     (progn (backward-word 1)
-		    (or (looking-at "function")
-			(progn (backward-word 1) (looking-at "function"))))))
+        (up-list -1)
+        (and (looking-at "(")
+             (progn (backward-word 1)
+                    (or (looking-at "function")
+                        (progn (backward-word 1) (looking-at "function"))))))
     (error nil)))
 
 
@@ -289,28 +289,28 @@ comments have been removed."
     (list
      (concat "\\<\\(const\\|var\\)\\>\\|" js-basic-type-re)
      (list "\\(\\w+\\)[ \t]*\\([=;].*\\|\\<in\\>.*\\|,\\|/[/*]\\|$\\)"
-	   nil
-	   nil
-	   '(1 font-lock-variable-name-face)))
+           nil
+           nil
+           '(1 font-lock-variable-name-face)))
 
     ;; formal parameters
     (list
      "\\<function\\>\\([ \t]+\\w+\\)?[ \t]*([ \t]*\\w"
      (list "\\(\\w+\\)\\([ \t]*).*\\)?"
-	   '(backward-char)
-	   '(end-of-line)
-	   '(1 font-lock-variable-name-face)))
+           '(backward-char)
+           '(end-of-line)
+           '(1 font-lock-variable-name-face)))
     
     ;; continued formal parameter list
     (list
      "^[ \t]*\\w+[ \t]*[,)]"
      (list "\\w+"
-	   '(if (save-excursion (backward-char) (js-inside-param-list-p))
-		(backward-word 1) 
-	      (end-of-line))
-	   '(end-of-line)
-	   '(0 font-lock-variable-name-face)))
-))
+           '(if (save-excursion (backward-char) (js-inside-param-list-p))
+                (backward-word 1) 
+              (end-of-line))
+           '(end-of-line)
+           '(0 font-lock-variable-name-face)))
+    ))
   "Level three font lock.")
 
 (defconst js-font-lock-keywords
@@ -376,20 +376,20 @@ indented to the same column as the current line."
   (save-excursion
     (save-match-data
       (when (looking-at "\\s-*\\<while\\>")
-	(if (save-excursion 
-	      (skip-chars-backward "[ \t\n]*}")
-	      (looking-at "[ \t\n]*}"))
-	    (save-excursion 
-	      (backward-list) (backward-word 1) (looking-at "\\<do\\>"))
-	  (js-re-search-backward "\\<do\\>" (point-at-bol) t)
-	  (or (looking-at "\\<do\\>")
-	      (let ((saved-indent (current-indentation)))
-		(while (and (js-re-search-backward "^[ \t]*\\<" nil t)
-			    (/= (current-indentation) saved-indent)))
-		(and (looking-at "[ \t]*\\<do\\>")
-		     (not (js-re-search-forward 
-			   "\\<while\\>" (point-at-eol) t))
-		     (= (current-indentation) saved-indent)))))))))
+        (if (save-excursion 
+              (skip-chars-backward "[ \t\n]*}")
+              (looking-at "[ \t\n]*}"))
+            (save-excursion 
+              (backward-list) (backward-word 1) (looking-at "\\<do\\>"))
+          (js-re-search-backward "\\<do\\>" (point-at-bol) t)
+          (or (looking-at "\\<do\\>")
+              (let ((saved-indent (current-indentation)))
+                (while (and (js-re-search-backward "^[ \t]*\\<" nil t)
+                            (/= (current-indentation) saved-indent)))
+                (and (looking-at "[ \t]*\\<do\\>")
+                     (not (js-re-search-forward 
+                           "\\<while\\>" (point-at-eol) t))
+                     (= (current-indentation) saved-indent)))))))))
 
 
 (defun js-ctrl-statement-indentation ()
@@ -504,8 +504,8 @@ point. JUSTIFY has the same meaning as in `fill-paragraph'."
         (narrow-to-region (save-excursion 
                             (goto-char (nth 8 parse-status)) (point-at-bol))
                           (save-excursion 
-			    (goto-char (nth 8 parse-status))
-			    (re-search-forward "*/")))
+                            (goto-char (nth 8 parse-status))
+                            (re-search-forward "*/")))
         (narrow-to-region (save-excursion 
                             (js-backward-paragraph)
                             (when (looking-at "^[ \t]*$") (forward-line 1))
@@ -685,8 +685,8 @@ Key bindings:
 
   (set (make-local-variable 'font-lock-defaults) 
        (list js-font-lock-keywords 
-	     nil nil '((?$ . "w") (?_ . "w")) nil
-	     '(font-lock-syntactic-keywords . js-font-lock-syntactic-keywords)))
+             nil nil '((?$ . "w") (?_ . "w")) nil
+             '(font-lock-syntactic-keywords . js-font-lock-syntactic-keywords)))
 
   (set (make-local-variable 'parse-sexp-ignore-comments) t) 
 
